@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en" th:replace="main/public :: #public_head">
+
+</head>
+<body>
+<!--头部-->
+<header class="publicHeader" th:replace="main/public :: #public_header">
+
+</header>
+<!--时间-->
+<section class="publicTime" th:replace="main/public :: #public_time">
+
+</section>
+<!--主体内容-->
+<section class="publicMian ">
+    <div class="left" th:replace="main/public :: #public_left(activeUri='bill')">
+    </div>
+    <div class="right">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>账单管理页面 >> 帐单修改页面</span>
+        </div>
+        <div class="providerAdd">
+            <form id="updateForm" action="#" th:action="@{/bill}" th:method="post">
+                <!--发送put请求修改信息-->
+
+                <!--1. 在SpringMVC中配置HiddenHttpMethodFilter（SpringBoot自动配置好了）-->
+                <!--2. 页面创建一个method="post"表单-->
+                <!--3. 创建一个input标签 name="_method"，value="指定请求方式"-->
+                <input th:type="hidden" name="_method" value="put">
+                <input th:type="hidden" name="bid" th:value="${billProvider.bid}">
+                <!--div的class 为error是验证错误，ok是验证成功-->
+                <div class="">
+                    <label for="billCode">帐单编码：</label>
+                    <input type="text" name="billCode" id="billCode" th:value="${billProvider.billCode}" placeholder=""/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="billName">商品名称：</label>
+                    <input type="text" name="billName" id="billName" th:value="${billProvider.billName}" placeholder=""/>
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="billCom">商品单位：</label>
+                    <input type="text" name="billCom" id="billCom" th:value="${billProvider.billCom}" placeholder=""/>
+                    <span>*</span>
+
+                </div>
+                <div>
+                    <label for="billNum">商品数量：</label>
+                    <input type="text" name="billNum" id="billNum" th:value="${billProvider.billNum}" placeholder=""/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label for="money">总金额：</label>
+                    <input type="text" name="money" id="money" th:value="${billProvider.money}" placeholder=""/>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label >供应商：</label>
+                    <select name="pid" >
+                        <option value="">--请选择相应的提供商--</option>
+                        <option value="" th:selected="${billProvider.pid == p.pid}" th:each="p : ${providers}" th:value="${p.pid}" th:text="${p.providerName}" >北京市粮油总公司</option>
+                    </select>
+                    <span>*</span>
+                </div>
+                <div>
+                    <label >是否付款：</label>
+                    <input type="radio" value="0" name="pay"  th:checked="${billProvider.pay == 0}" />未付款
+                    <input type="radio" value="1" name="pay"  th:checked="${billProvider.pay == 1}"/>已付款
+                </div>
+                <div class="providerAddBtn">
+                    <!--<a href="#">保存</a>-->
+                    <!--<a href="billList.html">返回</a>-->
+                    <input type="button" value="保存" onclick="$('#updateForm').submit()"/>
+                    <input type="button" value="返回" onclick="history.back(-1)"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+<footer class="footer" th:replace="main/public :: #public_footer">
+</footer>
+<script th:src="@{/webjars/jquery/3.3.1/jquery.js}" src="../js/jquery.js"></script>
+<!--
+	<script src="js/time.js"></script>
+	-->
+</body>
+</html>
